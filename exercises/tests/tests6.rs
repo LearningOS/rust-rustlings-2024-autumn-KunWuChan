@@ -7,7 +7,6 @@
 // Execute `rustlings hint tests6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 struct Foo {
     a: u128,
@@ -17,11 +16,15 @@ struct Foo {
 /// # Safety
 ///
 /// The `ptr` must contain an owned box of `Foo`.
+/// 目标：将 *mut Foo 转换为 Box<Foo>。
+/// Box::into_raw：把 Box 的“包装”拆掉，拿到里面的地址。
+// Box::from_raw：用地址重新装一个 Box，接管内存。
 unsafe fn raw_pointer_to_box(ptr: *mut Foo) -> Box<Foo> {
     // SAFETY: The `ptr` contains an owned box of `Foo` by contract. We
     // simply reconstruct the box from that pointer.
-    let mut ret: Box<Foo> = unsafe { ??? };
-    todo!("The rest of the code goes here")
+    let mut ret: Box<Foo> = unsafe { Box::from_raw(ptr) };
+    ret.b = Some("hello".to_owned());
+    ret
 }
 
 #[cfg(test)]

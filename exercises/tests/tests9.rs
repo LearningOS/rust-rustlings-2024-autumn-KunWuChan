@@ -27,15 +27,22 @@
 //
 // You should NOT modify any existing code except for adding two lines of attributes.
 
-// I AM NOT DONE
+/*  extern 和外部函数接口（FFI）的使用，以及通过属性控制符号的链接行为,只能加两个属性
+extern 和属性的含义
+    extern：像“对外开放的接口”，告诉 Rust 这个函数可以被外部调用或链接。
+    #[no_mangle]：像“取消伪装”，让函数名保持原样，不被混淆。必要性：Rust 默认混淆符号（如 _ZN3Foo15my_demo_functionE），#[no_mangle] 保持原名。
+    #[link_name = "name"]：#[link_name = "name"]：将函数链接到指定符号名。 像“贴标签”，指定外部看到的符号名。别名：将 my_demo_function_alias 指向 my_demo_function，实现别名功能。
 
+*/
 extern "Rust" {
     fn my_demo_function(a: u32) -> u32;
+    #[link_name = "my_demo_function"]
     fn my_demo_function_alias(a: u32) -> u32;
 }
 
 mod Foo {
     // No `extern` equals `extern "Rust"`.
+    #[no_mangle]
     fn my_demo_function(a: u32) -> u32 {
         a
     }
